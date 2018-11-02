@@ -1,0 +1,77 @@
+version: '3'
+services:
+  mysql-server:
+    hostname: mysql-server
+    container_name: mysql-server
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    networks:
+      - zabbix
+    volumes:
+      - /docker/mysql/data:/var/lib/mysql:rw
+      - /docker/mysql/conf/my.cnf:/etc/my.cnf:rw
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix
+
+  zabbix-web-nginx-mysql:
+    hostname: zabbix-web-nginx-mysql
+    container_name: zabbix-web-nginx-mysql
+    image: zabbix/zabbix-web-nginx-mysql:latest
+    networks:
+      - zabbix
+    links: 
+      - mysql-server:mysql-server
+      - zabbix-server:zabbix-server
+    ports:
+      - 80:80
+    environment:
+      DB_SERVER_HOST: 121.41.93.98
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix
+      MYSQL_ROOT_PASSWORD: root
+      ZBX_SERVER_NAME: web-name
+      PHP_TZ: Asia/Shanghai
+
+  zabbix-server:
+    hostname: zabbix-server-mysql 
+    image: zabbix/zabbix-server-mysql:latest
+    networks:
+      - zabbix
+    links:
+      - mysql-server:mysql-server
+    container_name: zabbix-server-mysql 
+    ports:
+      - 10051:10051
+    environment:
+      DB_SERVER_HOST: 121.41.93.98
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix
+      MYSQL_ROOT_PASSWORD: root
+      ZBX_AGENT: zabbix-agent
+
+  zabbix-agent:
+    hostname: zabbix-agent
+    image: zabbix/zabbix-agent:latest
+    networks:
+      - zabbix
+    container_name: zabbix-agent
+    links:
+      - zabbix-server:zabbix-server
+    ports:
+      - 10050:10050
+    environment:
+      ZBX_HOSTNAME: monitor
+      ZBX_UNSAFEUSERPARAMETERS: 1
+
+networks:
+  zabbix: 
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
