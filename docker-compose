@@ -67,7 +67,7 @@ services:
     ports:
       - 10050:10050
     environment:
-      ZBX_HOSTNAME: monitor
+      ZBX_HOSTNAME: zabbix-agent
       ZBX_UNSAFEUSERPARAMETERS: 1
 
 networks:
