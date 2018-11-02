@@ -17,3 +17,4 @@ default-character-set=utf8
 另外：
      通过docker内置zabbix-agent服务监控zabbix-server自身，需要设置Agent interfaces 
      IP address: 127.0.0.1,DNS name: zabbix-agent, Connect to: DNS
+     因为zabbix-agent使用的是容器中的IP地址。
