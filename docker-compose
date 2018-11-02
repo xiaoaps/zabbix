@@ -34,8 +34,8 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: zabbix
       MYSQL_USER: zabbix
-      MYSQL_PASSWORD: zabbix    
-      ZBX_SERVER_NAME: web-name
+      MYSQL_PASSWORD: zabbix
+      ZBX_SERVER_HOST: zabbix-server
       PHP_TZ: Asia/Shanghai
 
   zabbix-server:
