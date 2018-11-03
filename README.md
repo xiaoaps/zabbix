@@ -1,5 +1,5 @@
-# zabbix
-docker-compose zabbix
+# docker-compose 部署 zabbix 支持mysql8.0
+docker-compose zabbix.yml
 
 在启动zabbix.yml之前,先配置MySQL数据库目录挂载文件my.cnf
 cat /docker/mysql/conf/my.cnf
