@@ -9,6 +9,8 @@ services:
     networks:
       - zabbix
     volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - /docker/mysql/data:/var/lib/mysql:rw
       - /docker/mysql/conf/my.cnf:/etc/my.cnf:rw
     environment:
